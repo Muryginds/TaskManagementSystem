@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  backend:
+    container_name: backend
+    image: eclipse-temurin:21-jre-jammy
+    volumes:
+      - ./jars:/app
+    ports:
+      - "8080:8080"
+    working_dir: /app
+    command: java -jar backend.jar
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/task-management-db
+      SPRING_DATASOURCE_USERNAME: docker_user
+      SPRING_DATASOURCE_PASSWORD: docker_password
+      SPRING_PROFILES_ACTIVE: prod
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 3s
+        max_attempts: 5
+        window: 60s
+
+  postgres:
+    container_name: postgres
+    image: postgres:16.1
+    environment:
+      POSTGRES_DB: task-management-db
+      POSTGRES_USER: docker_user
+      POSTGRES_PASSWORD: docker_password
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 3s
+        max_attempts: 5
+        window: 60s
+
+volumes:
+  postgres:
