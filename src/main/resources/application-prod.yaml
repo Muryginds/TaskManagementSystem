@@ -1,0 +1,4 @@
+spring:
+  jpa:
+    properties:
+      show_sql: false
