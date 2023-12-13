@@ -89,6 +89,11 @@ databaseChangeLog:
               - column:
                   constraints:
                     nullable: false
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
                   name: email
                   type: VARCHAR(255)
               - column:
