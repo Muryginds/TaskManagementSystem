@@ -1,4 +1,6 @@
 spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/task-management-db
   jpa:
     properties:
       hibernate:
