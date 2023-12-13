@@ -19,17 +19,16 @@ public class Comment {
     private Long id;
 
     @NotNull
-    @Column(name = "text", columnDefinition = "text", nullable = false)
+    @Column(name = "text", columnDefinition = "text")
     private String text;
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "author_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "author_id", referencedColumnName = "id")
     private User author;
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "task_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "task_id", referencedColumnName = "id")
     private Task task;
-
 }
