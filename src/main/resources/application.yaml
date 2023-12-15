@@ -12,3 +12,9 @@ spring:
   liquibase:
     enabled: true
     change-log: classpath:db/changelog/changelog-master.yaml
+
+application:
+  security:
+    jwt:
+      secret-key: ZenkJxBQA7p/5+iuXLYEVPGvcZR4tQD1w9gCNjcJMVb2qUPhj+DGgATC0Wbk0yyH
+      expiration-time: 1800000
