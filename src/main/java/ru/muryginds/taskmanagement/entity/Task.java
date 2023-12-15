@@ -14,30 +14,29 @@ import ru.muryginds.taskmanagement.enumerated.TaskStatus;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Task {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
     @NotNull
-    @Column(name = "title", nullable = false)
+    @Column(name = "title")
     private String title;
 
     @NotNull
-    @Column(name = "description", columnDefinition = "text", nullable = false)
+    @Column(name = "description", columnDefinition = "text")
     private String description;
 
     @Builder.Default
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
+    @Column(name = "status")
     private TaskStatus status = TaskStatus.PENDING;
 
     @Builder.Default
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "priority", nullable = false)
+    @Column(name = "priority")
     private TaskPriority priority = TaskPriority.LOW;
 
     @NotNull
