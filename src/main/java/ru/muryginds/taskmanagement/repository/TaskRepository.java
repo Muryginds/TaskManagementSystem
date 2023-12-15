@@ -7,7 +7,6 @@ import ru.muryginds.taskmanagement.entity.Task;
 import ru.muryginds.taskmanagement.entity.User;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
-
     Page<Task> findByAuthor(User user, Pageable pageable);
 
     Page<Task> findByExecutor(User user, Pageable pageable);

@@ -7,7 +7,6 @@ import ru.muryginds.taskmanagement.entity.Task;
 import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-
     List<Comment> findByTask(Task task);
 
 }

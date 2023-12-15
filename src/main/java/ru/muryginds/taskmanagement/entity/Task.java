@@ -14,7 +14,6 @@ import ru.muryginds.taskmanagement.enumerated.TaskStatus;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Task {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
