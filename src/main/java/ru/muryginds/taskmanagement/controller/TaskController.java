@@ -14,7 +14,7 @@ import java.util.List;
 public class TaskController {
     private final TaskService taskService;
 
-    @PostMapping("/")
+    @PostMapping("")
     public TaskDTO addTask(@RequestBody TaskRequestDTO request) {
         return taskService.addTask(request);
     }
@@ -34,7 +34,7 @@ public class TaskController {
         return taskService.deleteTask(id);
     }
 
-    @PostMapping("/{id}/recover")
+    @PatchMapping("/{id}/recover")
     public TaskDTO recoverTask(@PathVariable long id) {
         return taskService.recoverTask(id);
     }

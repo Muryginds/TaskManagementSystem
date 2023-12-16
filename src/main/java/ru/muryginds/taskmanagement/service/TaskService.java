@@ -10,6 +10,7 @@ import ru.muryginds.taskmanagement.entity.Task;
 import ru.muryginds.taskmanagement.entity.User;
 import ru.muryginds.taskmanagement.exception.TaskModificationException;
 import ru.muryginds.taskmanagement.exception.TaskNotFoundException;
+import ru.muryginds.taskmanagement.exception.UserNotFoundException;
 import ru.muryginds.taskmanagement.mapstruct.TaskMapper;
 import ru.muryginds.taskmanagement.repository.TaskRepository;
 import ru.muryginds.taskmanagement.repository.UserRepository;
@@ -27,8 +28,11 @@ public class TaskService {
     @Transactional
     public TaskDTO addTask(TaskRequestDTO request) {
         var currentUser = CurrentUserUtils.getCurrentUser();
-        var executor = userRepository.findById(request.getExecutorId()).orElse(null);
-
+        User executor = null;
+        if (request.getExecutorId() != null) {
+            executor = userRepository.findById(request.getExecutorId()).orElseThrow(
+                    () -> new UserNotFoundException(request.getExecutorId()));
+        }
         var task = Task.builder()
                 .description(request.getDescription())
                 .title(request.getTitle())
@@ -61,13 +65,17 @@ public class TaskService {
             taskRepository.save(task);
             return taskMapper.taskToTaskDTO(task);
         }
-        var updatedExecutor = userRepository.findById(request.getExecutorId()).orElse(null);
+        User executor = null;
+        if (request.getExecutorId() != null) {
+            executor = userRepository.findById(request.getExecutorId()).orElseThrow(
+                    () -> new UserNotFoundException(request.getExecutorId()));
+        }
         task
                 .setTitle(request.getTitle())
                 .setDescription(request.getDescription())
                 .setStatus(request.getStatus())
                 .setPriority(request.getPriority())
-                .setExecutor(updatedExecutor);
+                .setExecutor(executor);
         taskRepository.save(task);
         return taskMapper.taskToTaskDTO(task);
     }

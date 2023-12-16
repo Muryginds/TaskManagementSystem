@@ -9,5 +9,6 @@ import java.util.List;
 @Mapper(uses = {UserMapper.class})
 public interface TaskMapper {
     TaskDTO taskToTaskDTO(Task task);
+
     List<TaskDTO> tasksToTaskDTOList(List<Task> tasks);
 }
