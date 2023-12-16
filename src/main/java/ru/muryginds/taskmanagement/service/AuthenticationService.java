@@ -1,5 +1,6 @@
 package ru.muryginds.taskmanagement.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -13,6 +14,7 @@ import ru.muryginds.taskmanagement.dto.request.AuthRequestDTO;
 import ru.muryginds.taskmanagement.dto.request.RegisterRequestDTO;
 import ru.muryginds.taskmanagement.dto.response.UserDTO;
 import ru.muryginds.taskmanagement.entity.User;
+import ru.muryginds.taskmanagement.mapstruct.UserMapper;
 import ru.muryginds.taskmanagement.repository.UserRepository;
 
 @Service
@@ -22,6 +24,7 @@ public class AuthenticationService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
     public UserDTO authenticate(AuthRequestDTO request) {
         try {
@@ -42,6 +45,7 @@ public class AuthenticationService {
                 .build();
     }
 
+    @Transactional
     public UserDTO register(RegisterRequestDTO request) {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new UserAlreadyExistException(request.getEmail());
@@ -51,12 +55,9 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();
-        var savedUser = userRepository.save(user);
+        userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
-        return UserDTO.builder()
-                .id(savedUser.getId())
-                .email(savedUser.getEmail())
-                .token(jwtToken)
-                .build();
+        return userMapper.userToUserDTO(user)
+                .setToken(jwtToken);
     }
 }

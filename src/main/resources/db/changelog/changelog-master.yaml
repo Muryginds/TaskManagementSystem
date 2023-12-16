@@ -1,3 +1,5 @@
 databaseChangeLog:
   - include:
       file: db/changelog/changeset/entity.yaml
+  - include:
+      file: db/changelog/changeset/task-table-modify.yaml

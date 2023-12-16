@@ -3,6 +3,7 @@ package ru.muryginds.taskmanagement.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import lombok.experimental.Accessors;
 import ru.muryginds.taskmanagement.enumerated.TaskPriority;
 import ru.muryginds.taskmanagement.enumerated.TaskStatus;
 
@@ -13,6 +14,7 @@ import ru.muryginds.taskmanagement.enumerated.TaskStatus;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Accessors(chain = true)
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,4 +49,8 @@ public class Task {
     @ManyToOne
     @JoinColumn(name = "executor_id")
     private User executor;
+
+    @Builder.Default
+    @NotNull
+    private Boolean isDeleted = false;
 }
