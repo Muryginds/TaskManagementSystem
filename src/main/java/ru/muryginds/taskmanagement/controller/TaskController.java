@@ -34,7 +34,7 @@ public class TaskController {
         return taskService.deleteTask(id);
     }
 
-    @PutMapping("/{id}/recover")
+    @PatchMapping("/{id}/recover")
     public TaskDTO recoverTask(@PathVariable long id) {
         return taskService.recoverTask(id);
     }
