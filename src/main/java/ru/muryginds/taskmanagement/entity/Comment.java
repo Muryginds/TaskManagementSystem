@@ -30,4 +30,8 @@ public class Comment {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "task_id", referencedColumnName = "id")
     private Task task;
+
+    @NotNull
+    @Builder.Default
+    private Boolean isDeleted = false;
 }

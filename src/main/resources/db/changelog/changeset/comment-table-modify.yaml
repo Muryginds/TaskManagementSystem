@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: comments-table-isDeleted-added
+      author: muryginds
+      changes:
+        - addColumn:
+            tableName: comments
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  defaultValueBoolean: false
+                  name: is_deleted
+                  type: BOOLEAN
