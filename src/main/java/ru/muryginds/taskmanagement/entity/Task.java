@@ -3,6 +3,7 @@ package ru.muryginds.taskmanagement.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import lombok.experimental.Accessors;
 import ru.muryginds.taskmanagement.enumerated.TaskPriority;
 import ru.muryginds.taskmanagement.enumerated.TaskStatus;
 
@@ -13,6 +14,7 @@ import ru.muryginds.taskmanagement.enumerated.TaskStatus;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Accessors(chain = true)
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
