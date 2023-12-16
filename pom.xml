@@ -102,8 +102,8 @@
                 <configuration>
                     <driver>org.postgresql.Driver</driver>
                     <url>jdbc:postgresql://localhost:5432/task-management-db</url>
-                    <username>**</username>
-                    <password>**</password>
+                    <username>docker_user</username>
+                    <password>docker_password</password>
                     <outputChangeLogFile>src/main/resources/liquibase-outputChangeLog.yaml</outputChangeLogFile>
                 </configuration>
             </plugin>

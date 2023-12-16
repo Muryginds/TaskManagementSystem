@@ -47,4 +47,8 @@ public class Task {
     @ManyToOne
     @JoinColumn(name = "executor_id")
     private User executor;
+
+    @Builder.Default
+    @NotNull
+    private Boolean isDeleted = false;
 }
