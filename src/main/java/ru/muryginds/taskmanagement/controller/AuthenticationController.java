@@ -1,5 +1,6 @@
 package ru.muryginds.taskmanagement.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,12 +18,12 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/authenticate")
-    public UserDTO authenticate(@RequestBody AuthRequestDTO requestDto) {
+    public UserDTO authenticate(@Valid @RequestBody AuthRequestDTO requestDto) {
         return authenticationService.authenticate(requestDto);
     }
 
     @PostMapping("/register")
-    public UserDTO authenticate(@RequestBody RegisterRequestDTO requestDto) {
+    public UserDTO authenticate(@Valid @RequestBody RegisterRequestDTO requestDto) {
         return authenticationService.register(requestDto);
     }
 }

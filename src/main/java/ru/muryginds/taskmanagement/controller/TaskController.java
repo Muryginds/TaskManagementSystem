@@ -1,5 +1,7 @@
 package ru.muryginds.taskmanagement.controller;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.muryginds.taskmanagement.dto.request.TaskRequestDTO;
@@ -15,7 +17,7 @@ public class TaskController {
     private final TaskService taskService;
 
     @PostMapping("")
-    public TaskDTO addTask(@RequestBody TaskRequestDTO request) {
+    public TaskDTO addTask(@Valid @RequestBody TaskRequestDTO request) {
         return taskService.addTask(request);
     }
 
@@ -25,7 +27,7 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public TaskDTO editTask(@PathVariable long id, @RequestBody TaskRequestDTO request) {
+    public TaskDTO editTask(@PathVariable long id, @Valid @RequestBody TaskRequestDTO request) {
         return taskService.editTask(id, request);
     }
 
@@ -43,8 +45,8 @@ public class TaskController {
     public List<TaskDTO> getTasks(
             @RequestParam(name = "author_id", required = false) Long authorId,
             @RequestParam(name = "executor_id", required = false) Long executorId,
-            @RequestParam(name = "pagesOffset", defaultValue = "0") int pagesOffset,
-            @RequestParam(name = "itemPerPage", defaultValue = "5") int itemPerPage,
+            @RequestParam(name = "pagesOffset", defaultValue = "0") @Min(0) int pagesOffset,
+            @RequestParam(name = "itemPerPage", defaultValue = "5") @Min(1) int itemPerPage,
             @RequestParam(name = "showDeleted", defaultValue = "false") boolean showDeleted) {
         return taskService.getTasks(authorId, executorId, pagesOffset, itemPerPage, showDeleted);
     }

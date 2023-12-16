@@ -1,5 +1,7 @@
 package ru.muryginds.taskmanagement.controller;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.muryginds.taskmanagement.dto.request.CommentRequestDTO;
@@ -15,7 +17,7 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("/{id}")
-    public CommentDTO addComment(@PathVariable long id, @RequestBody CommentRequestDTO request) {
+    public CommentDTO addComment(@PathVariable long id, @Valid @RequestBody CommentRequestDTO request) {
         return commentService.addComment(id, request);
     }
 
@@ -25,7 +27,7 @@ public class CommentController {
     }
 
     @PutMapping("/{id}")
-    public CommentDTO editComment(@PathVariable long id, @RequestBody CommentRequestDTO request) {
+    public CommentDTO editComment(@PathVariable long id, @Valid @RequestBody CommentRequestDTO request) {
         return commentService.editComment(id, request);
     }
 
@@ -42,8 +44,8 @@ public class CommentController {
     @GetMapping("/all")
     public List<CommentDTO> getComments(
             @RequestParam(name = "task_id") Long taskId,
-            @RequestParam(name = "pagesOffset", defaultValue = "0") int pagesOffset,
-            @RequestParam(name = "itemPerPage", defaultValue = "5") int itemPerPage,
+            @RequestParam(name = "pagesOffset", defaultValue = "0") @Min(0) int pagesOffset,
+            @RequestParam(name = "itemPerPage", defaultValue = "5") @Min(1) int itemPerPage,
             @RequestParam(name = "showDeleted", defaultValue = "false") boolean showDeleted) {
         return commentService.getComments(taskId, pagesOffset, itemPerPage, showDeleted);
     }
