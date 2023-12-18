@@ -7,6 +7,6 @@ import lombok.Data;
 @Data
 public class CommentRequestDTO {
     @NotNull(message = "Текст не может быть пустым")
-    @Size(min = 1, message = "Текст не может быть пустым")
+    @Size(min = 1, max = 500, message = "Длина текста от 1 до 500 символов")
     private String text;
 }
