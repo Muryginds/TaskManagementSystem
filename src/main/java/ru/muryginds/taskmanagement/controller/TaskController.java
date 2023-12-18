@@ -13,34 +13,40 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/task")
 @RequiredArgsConstructor
-public class TaskController {
+public class TaskController implements ru.muryginds.taskmanagement.controller.swagger.SwaggerTaskController {
     private final TaskService taskService;
 
+    @Override
     @PostMapping("")
     public TaskDTO addTask(@Valid @RequestBody TaskRequestDTO request) {
         return taskService.addTask(request);
     }
 
+    @Override
     @GetMapping("/{id}")
     public TaskDTO getTask(@PathVariable long id) {
         return taskService.getTask(id);
     }
 
+    @Override
     @PutMapping("/{id}")
     public TaskDTO editTask(@PathVariable long id, @Valid @RequestBody TaskRequestDTO request) {
         return taskService.editTask(id, request);
     }
 
+    @Override
     @DeleteMapping("/{id}")
     public TaskDTO deleteTask(@PathVariable long id) {
         return taskService.deleteTask(id);
     }
 
+    @Override
     @PatchMapping("/{id}/recover")
     public TaskDTO recoverTask(@PathVariable long id) {
         return taskService.recoverTask(id);
     }
 
+    @Override
     @GetMapping("/all")
     public List<TaskDTO> getTasks(
             @RequestParam(name = "author_id", required = false) Long authorId,
