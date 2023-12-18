@@ -36,11 +36,15 @@ public class TaskService {
         var task = Task.builder()
                 .description(request.getDescription())
                 .title(request.getTitle())
-                .status(request.getStatus())
-                .priority(request.getPriority())
                 .executor(executor)
                 .author(currentUser)
                 .build();
+        if (request.getStatus() != null) {
+            task.setStatus(request.getStatus());
+        }
+        if (request.getPriority() != null) {
+            task.setPriority(request.getPriority());
+        }
         taskRepository.save(task);
 
         return taskMapper.taskToTaskDTO(task);

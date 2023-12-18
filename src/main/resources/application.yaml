@@ -18,3 +18,9 @@ application:
     jwt:
       secret-key: ZenkJxBQA7p/5+iuXLYEVPGvcZR4tQD1w9gCNjcJMVb2qUPhj+DGgATC0Wbk0yyH
       expiration-time: 1800000
+
+springdoc:
+  swagger-ui:
+    operationsSorter: method
+    path: /swagger
+    enabled: true

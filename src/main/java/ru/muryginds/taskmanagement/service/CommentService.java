@@ -1,9 +1,11 @@
 package ru.muryginds.taskmanagement.service;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import ru.muryginds.taskmanagement.dto.request.CommentRequestDTO;
 import ru.muryginds.taskmanagement.dto.response.CommentDTO;
 import ru.muryginds.taskmanagement.entity.Comment;
@@ -17,6 +19,7 @@ import ru.muryginds.taskmanagement.util.CurrentUserUtils;
 
 import java.util.List;
 
+@Validated
 @Service
 @RequiredArgsConstructor
 public class CommentService {
@@ -25,7 +28,7 @@ public class CommentService {
     private final CommentMapper commentMapper;
 
     @Transactional
-    public CommentDTO addComment(long id, CommentRequestDTO request) {
+    public CommentDTO addComment(long id, @Valid CommentRequestDTO request) {
         var task = taskRepository.findById(id)
                 .orElseThrow(() -> new TaskNotFoundException(id));
         var currentUser = CurrentUserUtils.getCurrentUser();
@@ -45,7 +48,7 @@ public class CommentService {
     }
 
     @Transactional
-    public CommentDTO editComment(long id, CommentRequestDTO request) {
+    public CommentDTO editComment(long id, @Valid CommentRequestDTO request) {
         var comment = commentRepository.findById(id)
                 .orElseThrow(() -> new CommentNotFoundException(id));
         if (isUserNotAuthor(comment)) {
