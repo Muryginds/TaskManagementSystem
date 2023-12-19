@@ -2,7 +2,7 @@ spring:
   application:
     name: backend
   datasource:
-    url: jdbc:postgresql://postgres:5432/task-management-db
+    url: jdbc:postgresql://localhost:5432/task-management-db
     username: docker_user
     password: docker_password
     driver-class-name: org.postgresql.Driver
