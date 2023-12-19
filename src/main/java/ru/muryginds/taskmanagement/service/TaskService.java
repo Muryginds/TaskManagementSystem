@@ -85,7 +85,7 @@ public class TaskService {
     }
 
     private boolean isUserAuthorOfTask(User user, Task task) {
-        return user.getEmail().equals(task.getAuthor().getEmail());
+        return task.getAuthor() != null && user.getEmail().equals(task.getAuthor().getEmail());
     }
 
     private boolean isUserExecutorOfTask(User user, Task task) {

@@ -4,6 +4,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -23,7 +24,8 @@ public class CustomExceptionsHandler {
             TaskManagerException.class,
             HttpMessageNotReadableException.class,
             MissingServletRequestParameterException.class,
-            ExpiredJwtException.class
+            ExpiredJwtException.class,
+            InternalAuthenticationServiceException.class
     })
     public ResponseEntity<ErrorResponseDTO> handleCustomExceptions(Exception e) {
         return ResponseEntity.badRequest().body(prepareErrorResponse(e));
