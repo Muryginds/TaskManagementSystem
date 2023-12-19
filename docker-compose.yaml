@@ -3,17 +3,17 @@ version: "3.8"
 services:
   backend:
     container_name: backend
-    image: eclipse-temurin:21-jre-jammy
-    volumes:
-      - ./jars:/app
+    image: client:0.0.1
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
-    working_dir: /app
-    command: java -jar backend.jar
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/task-management-db
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres/task-management-db
       SPRING_DATASOURCE_USERNAME: docker_user
       SPRING_DATASOURCE_PASSWORD: docker_password
       SPRING_PROFILES_ACTIVE: prod
@@ -36,6 +36,11 @@ services:
       - postgres:/data/postgres
     ports:
       - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready", "--quiet" ]
+      interval: 1s
+      timeout: 5s
+      retries: 10
     deploy:
       restart_policy:
         condition: on-failure
