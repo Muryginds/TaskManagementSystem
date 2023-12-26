@@ -6,6 +6,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.RequestBody;
 import ru.muryginds.taskmanagement.dto.request.AuthRequestDTO;
 import ru.muryginds.taskmanagement.dto.request.RegisterRequestDTO;
 import ru.muryginds.taskmanagement.dto.response.ErrorResponseDTO;
@@ -23,7 +25,7 @@ public interface SwaggerAuthenticationController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @Operation(summary = "Авторизация пользователя")
-    UserDTO authenticate(AuthRequestDTO requestDto);
+    UserDTO authenticate(@Valid @RequestBody AuthRequestDTO requestDto);
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Аккаунт зарегистрирован",
@@ -32,5 +34,5 @@ public interface SwaggerAuthenticationController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @Operation(summary = "Регистрация пользователя")
-    UserDTO register(RegisterRequestDTO requestDto);
+    UserDTO register(@Valid @RequestBody RegisterRequestDTO requestDto);
 }

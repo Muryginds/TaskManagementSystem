@@ -6,6 +6,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.muryginds.taskmanagement.dto.request.TaskRequestDTO;
 import ru.muryginds.taskmanagement.dto.response.CommentDTO;
 import ru.muryginds.taskmanagement.dto.response.ErrorResponseDTO;
@@ -27,7 +32,7 @@ public interface SwaggerTaskController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @Operation(summary = "Добавление задания")
-    TaskDTO addTask(TaskRequestDTO request);
+    TaskDTO addTask(@Valid @RequestBody TaskRequestDTO request);
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Задание отправлено",
@@ -36,7 +41,7 @@ public interface SwaggerTaskController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @Operation(summary = "Получение задания")
-    TaskDTO getTask(long id);
+    TaskDTO getTask(@PathVariable long id);
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Задание отредактировано",
@@ -47,7 +52,7 @@ public interface SwaggerTaskController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @Operation(summary = "Редактирование задания")
-    TaskDTO editTask(long id, TaskRequestDTO request);
+    TaskDTO editTask(@PathVariable long id, @Valid @RequestBody TaskRequestDTO request);
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Задание удалено",
@@ -56,7 +61,7 @@ public interface SwaggerTaskController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @Operation(summary = "Удаление задания")
-    TaskDTO deleteTask(long id);
+    TaskDTO deleteTask(@PathVariable long id);
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Задание восстановлено",
@@ -65,7 +70,7 @@ public interface SwaggerTaskController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @Operation(summary = "Восстановление задания")
-    TaskDTO recoverTask(long id);
+    TaskDTO recoverTask(@PathVariable long id);
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Список отправлен",
@@ -75,10 +80,10 @@ public interface SwaggerTaskController {
     })
     @Operation(summary = "Получение списка заданий")
     List<TaskDTO> getTasks(
-            Long authorId,
-            Long executorId,
-            int pagesOffset,
-            int itemPerPage,
-            boolean showDeleted
+            @RequestParam(name = "author_id", required = false) Long authorId,
+            @RequestParam(name = "executor_id", required = false) Long executorId,
+            @RequestParam(name = "pagesOffset", defaultValue = "0") @Min(0) int pagesOffset,
+            @RequestParam(name = "itemPerPage", defaultValue = "5") @Min(1) int itemPerPage,
+            @RequestParam(name = "showDeleted", defaultValue = "false") boolean showDeleted
     );
 }

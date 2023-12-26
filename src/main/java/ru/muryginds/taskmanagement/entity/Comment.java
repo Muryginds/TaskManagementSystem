@@ -11,6 +11,13 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@NamedEntityGraph(
+        name = "Comment.authorAndTask",
+        attributeNodes = {
+                @NamedAttributeNode("author"),
+                @NamedAttributeNode("task")
+        }
+)
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,12 +29,12 @@ public class Comment {
     private String text;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     private User author;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "task_id", referencedColumnName = "id")
     private Task task;
 

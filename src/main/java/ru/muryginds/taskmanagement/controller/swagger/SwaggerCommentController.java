@@ -6,6 +6,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.muryginds.taskmanagement.dto.request.CommentRequestDTO;
 import ru.muryginds.taskmanagement.dto.response.CommentDTO;
 import ru.muryginds.taskmanagement.dto.response.ErrorResponseDTO;
@@ -26,7 +31,7 @@ public interface SwaggerCommentController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @Operation(summary = "Добавление комментария")
-    CommentDTO addComment(long id, CommentRequestDTO request);
+    CommentDTO addComment(@PathVariable long id, @Valid @RequestBody CommentRequestDTO request);
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Комментарий отправлен",
@@ -35,7 +40,7 @@ public interface SwaggerCommentController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @Operation(summary = "Получение комментария")
-    CommentDTO getComment(long id);
+    CommentDTO getComment(@PathVariable long id);
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Комментарий отредактирован",
@@ -46,7 +51,7 @@ public interface SwaggerCommentController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @Operation(summary = "Редактирование комментария")
-    CommentDTO editComment(long id, CommentRequestDTO request);
+    CommentDTO editComment(@PathVariable long id, @Valid @RequestBody CommentRequestDTO request);
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Комментарий удален",
@@ -55,7 +60,7 @@ public interface SwaggerCommentController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @Operation(summary = "Удаление комментария")
-    CommentDTO deleteComment(long id);
+    CommentDTO deleteComment(@PathVariable long id);
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Комментарий восстановлен",
@@ -64,7 +69,7 @@ public interface SwaggerCommentController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @Operation(summary = "Восстановление комментария")
-    CommentDTO recoverComment(long id);
+    CommentDTO recoverComment(@PathVariable long id);
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Список отправлен",
@@ -74,9 +79,9 @@ public interface SwaggerCommentController {
     })
     @Operation(summary = "Получение списка комментариев")
     List<CommentDTO> getComments(
-            Long taskId,
-            int pagesOffset,
-            int itemPerPage,
-            boolean showDeleted
+            @RequestParam(name = "task_id") Long taskId,
+            @RequestParam(name = "pagesOffset", defaultValue = "0") @Min(0) int pagesOffset,
+            @RequestParam(name = "itemPerPage", defaultValue = "5") @Min(1) int itemPerPage,
+            @RequestParam(name = "showDeleted", defaultValue = "false") boolean showDeleted
     );
 }
