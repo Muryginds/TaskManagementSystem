@@ -15,6 +15,13 @@ import ru.muryginds.taskmanagement.enumerated.TaskStatus;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
+@NamedEntityGraph(
+        name = "Task.authorAndExecutor",
+        attributeNodes = {
+                @NamedAttributeNode("author"),
+                @NamedAttributeNode("executor")
+        }
+)
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,11 +49,11 @@ public class Task {
     private TaskPriority priority = TaskPriority.LOW;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", nullable = false)
     private User author;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "executor_id")
     private User executor;
 
